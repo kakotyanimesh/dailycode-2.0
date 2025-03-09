@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div>
+        <video id="video"></video>
+        <button id="capture">click me </button>
+    </div>
+    <canvas id="canvas" width="300" height="200" style="display: none;"></canvas>
+    <img id="photo" alt="">
+    <script>
+        const videoElement = document.getElementById("video")
+        const button = document.getElementById("capture")
+        const canvas = document.getElementById("canvas")
+        const image = document.getElementById("photo")
+
+        navigator.mediaDevices.getUserMedia({video : true, audio:false}).then((stream) => {
+            videoElement.srcObject = stream
+            videoElement.play()
+        })
+        .catch((err) => console.log("something went weinf bro " + err ))
+
+        button.addEventListener("click", () => {
+            const ctx = canvas.getContext("2d")
+
+            ctx.drawImage(videoElement, 0, 0, canvas.width, canvas.height)
+
+            image.src = canvas.toDataURL("image/png")
+            image.style.display = "block"
+
+        })
+    </script>
+</body>
+
+</html>
